@@ -1,0 +1,34 @@
+---
+import { getLangFromUrl, slugSelector } from "@/lib/utils/languageParser";
+//import { plainify } from "@/lib/utils/textConverter";
+import ImageMod from "./ImageMod.astro";
+
+const { data } = Astro.props;
+const { title, image, price } = data;
+const lang = getLangFromUrl(Astro.url);
+---
+
+<article class="bg-white rounded-lg shadow-md overflow-hidden dark:bg-darkmode-theme-light">
+  {
+    image && (
+      <ImageMod
+        class="w-full h-48 object-cover"
+        src={`/images/${image}`}
+        alt={title}
+        width={120}
+        height={120}
+        format="webp"
+      />
+    )
+  }
+  <div class="p-4">
+    <a href={slugSelector(`/product/${data.id}`, lang)}>
+      <h2 class="text-lg font-semibold">{title}</h2>
+    </a>
+    <p class="text-gray-600 mt-2">R$ {price}</p>
+    <div class="mt-4 flex space-x-2">
+      <a href='#' class="bg-blue-500 text-white px-4 py-2 rounded">Comprar</a>
+      <a href={slugSelector(`/product/${data.id}`, lang)} class="bg-gray-300 text-gray-900 px-4 py-2 rounded">Ver Mais</a>
+    </div>
+  </div>
+</article>
